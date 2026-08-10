@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-base text-slate-100 font-display antialiased;
+  min-height: 100vh;
+}
+
+@layer components {
+  .card {
+    @apply bg-panel/80 backdrop-blur rounded-2xl border border-line shadow-lg shadow-black/20;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-amazigh-yellow text-slate-900 hover:bg-amber-300 hover:shadow-lg hover:shadow-amber-500/20;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-white/5 text-slate-100 hover:bg-white/10 border border-line;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed bg-amazigh-red/10 text-red-300 hover:bg-amazigh-red/20 border border-red-500/30;
+  }
+
+  .input {
+    @apply w-full rounded-xl bg-white/5 border border-line px-4 py-3 text-slate-100 placeholder-slate-500 outline-none transition focus:border-amazigh-blue focus:ring-2 focus:ring-amazigh-blue/30;
+  }
+
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5;
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  top: 0;
+  pointer-events: none;
+  animation: fall linear forwards;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b1220;
+}
+::-webkit-scrollbar-thumb {
+  background: #26324f;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #33405f;
+}
