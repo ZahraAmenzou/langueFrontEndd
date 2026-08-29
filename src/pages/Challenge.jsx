@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaFlag, FaHeart, FaTrophy, FaSpinner } from 'react-icons/fa';
+import { FaFlag, FaHeart, FaTrophy, FaSpinner, FaGem } from 'react-icons/fa';
 import { playerApi, getPlayerToken, setPlayerToken, getErrorMessage } from '../services/api';
 import Loading from '../components/Loading';
 import ProgressBar from '../components/ProgressBar';
 import QuestionCard from '../components/QuestionCard';
+import { getLanguage } from '../config/languages';
 
 export default function Challenge() {
   const { code } = useParams();
@@ -93,8 +94,8 @@ export default function Challenge() {
       setError(null);
       try {
         const res = await playerApi.answer(code, getPlayerToken(code), answer);
-        const { correct, locked } = res.data;
-        setFeedback({ correct, message: correct ? 'CORRECT!' : 'WRONG!' });
+        const { correct, locked, gemEarned, bonusEarned } = res.data;
+        setFeedback({ correct, message: correct ? 'CORRECT!' : 'WRONG!', gemEarned, bonusEarned });
         setState(res.data.state);
 
         if (locked) {
@@ -135,10 +136,11 @@ export default function Challenge() {
   }
 
   if (view === 'intro') {
+    const lang = getLanguage(meta?.language);
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-xl flex-col items-center justify-center px-4 text-center">
-        <span className="mb-4 inline-block animate-float text-6xl text-amazigh-yellow">ⵣ</span>
-        <h1 className="mb-2 text-3xl font-extrabold text-white sm:text-4xl">TACHELHIT CHALLENGE</h1>
+        <span className="mb-4 inline-block animate-float text-6xl text-amazigh-yellow">{lang.flag}</span>
+        <h1 className="mb-2 text-3xl font-extrabold text-white sm:text-4xl">{lang.label.toUpperCase()} CHALLENGE</h1>
         <p className="mb-8 text-slate-400">{meta?.title}</p>
 
         <div className="card mb-8 w-full space-y-3 p-6 text-left">
@@ -148,7 +150,11 @@ export default function Challenge() {
           </div>
           <div className="flex items-center gap-3">
             <FaHeart className="text-amazigh-red" />
-            <span className="text-slate-300">3 attempts in total</span>
+            <span className="text-slate-300">10 attempts in total</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <FaGem className="text-amazigh-green" />
+            <span className="text-slate-300">Earn a gem (💎) per correct answer = +1 attempt</span>
           </div>
           <div className="flex items-center gap-3">
             <FaTrophy className="text-amazigh-yellow" />
@@ -156,11 +162,15 @@ export default function Challenge() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-amazigh-green text-lg">💀</span>
-            <span className="text-slate-300">3 wrong answers = Game Over</span>
+            <span className="text-slate-300">Run out of attempts = Game Over</span>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-lg">🔒</span>
-            <span className="text-slate-300">Locked for 5 hours after 3 mistakes</span>
+            <span className="text-slate-300">Locked for 5 hours when you run out of attempts</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-lg">🎁</span>
+            <span className="text-slate-300">Complete the challenge to earn a bonus attempt</span>
           </div>
         </div>
 
@@ -178,17 +188,18 @@ export default function Challenge() {
 
   const total = state.totalWords;
   const current = Math.min(state.currentQuestion, total);
+  const lang = getLanguage(state.language);
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-10">
       <div className="mb-6 w-full max-w-xl">
         <p className="mb-3 text-center text-xs font-bold uppercase tracking-[0.35em] text-amazigh-blue">
-          ⵣ Tachelhit Challenge
+          {lang.flag} {lang.label} Challenge
         </p>
         <div className="mb-2 flex items-center justify-between gap-3">
           <h1 className="truncate text-lg font-bold text-white">{state.title}</h1>
           <span className="shrink-0 rounded-full bg-white/5 px-3 py-1 text-xs font-semibold text-slate-300">
-            ⵣ {meta?.uniqueCode}
+            {lang.flag} {meta?.uniqueCode}
           </span>
         </div>
         <ProgressBar progress={current} total={total} />
@@ -199,6 +210,8 @@ export default function Challenge() {
         total={total}
         word={state.currentWord}
         attempts={state.attemptsRemaining}
+        totalAttempts={state.totalAttempts}
+        gems={state.gems}
         score={state.score}
         onSubmit={handleAnswer}
         disabled={submitting}
@@ -220,6 +233,16 @@ export default function Challenge() {
               {feedback.message}
             </h2>
             {feedback.correct && <p className="mt-2 text-slate-300">+10 points</p>}
+            {feedback.gemEarned && (
+              <p className="mt-2 inline-flex items-center gap-1.5 font-semibold text-amazigh-green">
+                <FaGem /> +1 gem — 1 extra attempt!
+              </p>
+            )}
+            {feedback.bonusEarned && (
+              <p className="mt-2 inline-flex items-center gap-1.5 font-semibold text-amazigh-yellow">
+                🎁 Challenge complete — +1 bonus attempt!
+              </p>
+            )}
           </div>
         </div>
       )}

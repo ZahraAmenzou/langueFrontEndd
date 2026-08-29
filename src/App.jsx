@@ -68,7 +68,7 @@ export default function App() {
           </Routes>
         </main>
         <footer className="py-6 text-center text-xs text-slate-500">
-          ⵣ Tachelhit Amazigh Challenge — 10 words, 3 attempts, one culture.
+          🌍 Language Challenge — 10 words, 10 attempts, four languages.
         </footer>
       </div>
     </AuthProvider>

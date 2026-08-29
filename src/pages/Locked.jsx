@@ -53,7 +53,7 @@ export default function Locked() {
       </div>
 
       <h1 className="mb-3 text-4xl font-extrabold text-white sm:text-5xl">🔒 CHALLENGE LOCKED</h1>
-      <p className="mb-1 text-lg text-slate-300">You used all 3 attempts.</p>
+      <p className="mb-1 text-lg text-slate-300">You used all of your attempts.</p>
       <p className="mb-8 text-slate-400">{state.title}</p>
 
       <div className="card w-full p-6">

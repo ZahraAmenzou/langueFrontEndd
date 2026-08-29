@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { authApi, setAdminToken } from '../services/api';
+import { authApi, setAdminToken, getAdminToken } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
+    const token = getAdminToken();
     if (!token) {
       setLoading(false);
       return;

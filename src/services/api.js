@@ -6,7 +6,7 @@ const API_URL = rawApiUrl.replace(/\/api$/, '');
 const api = axios.create({
   baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
+  timeout: 60000,
 });
 
 export const getErrorMessage = (error, fallback = 'Something went wrong. Please try again.') => {
@@ -43,15 +43,29 @@ export const getErrorMessage = (error, fallback = 'Something went wrong. Please 
 export const setAdminToken = (token) => {
   if (token) {
     localStorage.setItem('adminToken', token);
+    localStorage.removeItem('token');
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
     localStorage.removeItem('adminToken');
+    localStorage.removeItem('token');
     delete api.defaults.headers.common['Authorization'];
   }
 };
 
+export const getAdminToken = () => {
+  let token = localStorage.getItem('adminToken');
+  if (token) return token;
+
+  token = localStorage.getItem('token');
+  if (token) {
+    localStorage.setItem('adminToken', token);
+    localStorage.removeItem('token');
+  }
+  return token;
+};
+
 api.interceptors.request.use((config) => {
-  const adminToken = localStorage.getItem('adminToken');
+  const adminToken = getAdminToken();
   if (adminToken) config.headers.Authorization = `Bearer ${adminToken}`;
   return config;
 });
@@ -74,8 +88,7 @@ api.interceptors.response.use(
     const requestUrl = error.config?.url;
 
     if (status === 401 && isAdminRequest(requestUrl) && !requestUrl.includes('/auth/login')) {
-      localStorage.removeItem('adminToken');
-      delete api.defaults.headers.common['Authorization'];
+      setAdminToken(null);
       if (window.location.pathname !== '/admin/login') {
         window.location.replace('/admin/login');
       }

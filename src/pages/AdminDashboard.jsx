@@ -48,7 +48,7 @@ export default function AdminDashboard() {
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-extrabold text-white">Admin Dashboard</h1>
-          <p className="text-slate-400">Manage your Tachelhit challenges at a glance</p>
+          <p className="text-slate-400">Manage your language challenges at a glance</p>
         </div>
         <button onClick={load} className="btn-secondary">
           <FaSync /> Refresh
@@ -78,7 +78,7 @@ export default function AdminDashboard() {
             >
               <FaPlusCircle className="mb-3 text-4xl text-amazigh-green transition group-hover:scale-110" />
               <h2 className="text-xl font-bold text-white">Create Challenge</h2>
-              <p className="mt-1 text-sm text-slate-400">Build a new challenge with exactly 10 Tachelhit words</p>
+              <p className="mt-1 text-sm text-slate-400">Build a new challenge with exactly 10 words in any supported language</p>
             </Link>
 
             <Link

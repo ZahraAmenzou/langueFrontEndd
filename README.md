@@ -1,6 +1,6 @@
-# ⵣ Tachelhit Amazigh Challenge — Frontend
+# ⵣ Language Challenge — Frontend
 
-A modern, mobile-first **React + Vite + Tailwind CSS** frontend for the Tachelhit (Amazigh) word challenge game. It consumes an already-deployed backend API.
+A modern, mobile-first **React + Vite + Tailwind CSS** frontend for the multi-language word challenge game. It supports **Tachelhit (Amazigh), French, English and German**, and consumes an already-deployed backend API.
 
 The backend is the **source of truth** for game state: score, attempts, current question, lock times and completion are all computed server-side. The frontend only requests and displays the state returned by the API.
 
@@ -9,17 +9,17 @@ The backend is the **source of truth** for game state: score, attempts, current 
 ## ✨ Features
 
 **Player side**
-- Animated, mobile-first landing page with an Amazigh-inspired visual identity.
+- Animated, mobile-first landing page with a neutral, language-agnostic visual identity.
 - Open any challenge via its unique short link: `/challenge/abc123xyz`.
-- Answer 10 Tachelhit words one at a time with a live progress bar, remaining attempts (hearts) and score.
-- Correct answer → +10 points. Wrong answer → lose a heart. 3 mistakes → challenge locks for 5 hours (server-enforced).
+- Answer the challenge's 10 words one at a time with a live progress bar, remaining attempts (hearts) and score.
+- Correct answer → +10 points. Wrong answer → lose a heart. 10 mistakes → challenge locks for 5 hours (server-enforced).
 - Locked screen with a real-time `HH:MM:SS` countdown. When it hits zero the page re-requests the real state from the backend.
 - Success screen with score, correct / wrong answers, accuracy, completion time and a confetti animation.
 
 **Admin side**
 - JWT login (`/admin/login`), token stored in `localStorage` and attached to protected requests.
 - Dashboard with challenge statistics.
-- Create, edit, list and delete challenges (exactly 10 words each).
+- Create, edit, list and delete challenges — choose the **target language** and exactly 10 words each.
 - One-click copy of the challenge share link.
 
 **Security**
@@ -200,4 +200,4 @@ git push -u origin main
 
 ## 📄 License
 
-MIT — free to use, modify and share. ⵣ
+MIT — free to use, modify and share. 🌍

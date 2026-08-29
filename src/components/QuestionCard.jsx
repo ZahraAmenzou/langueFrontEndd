@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaPaperPlane } from 'react-icons/fa';
+import { FaPaperPlane, FaGem } from 'react-icons/fa';
 import Attempts from './Attempts';
 
 export default function QuestionCard({
@@ -7,6 +7,8 @@ export default function QuestionCard({
   total,
   word,
   attempts,
+  totalAttempts = 10,
+  gems = 0,
   score,
   onSubmit,
   disabled = false,
@@ -26,9 +28,15 @@ export default function QuestionCard({
         <span className="rounded-full bg-amazigh-blue/10 px-4 py-1.5 text-sm font-semibold text-amazigh-blue">
           Question {questionNumber} / {total}
         </span>
-        <span className="rounded-full bg-amazigh-yellow/10 px-4 py-1.5 text-sm font-semibold text-amazigh-yellow">
-          +{score} pts
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-amazigh-green/10 px-3 py-1.5 text-sm font-semibold text-amazigh-green">
+            <FaGem className="mr-1 inline text-xs" />
+            {gems}
+          </span>
+          <span className="rounded-full bg-amazigh-yellow/10 px-4 py-1.5 text-sm font-semibold text-amazigh-yellow">
+            +{score} pts
+          </span>
+        </div>
       </div>
 
       <p className="mb-2 text-sm font-medium uppercase tracking-widest text-slate-400">
@@ -54,8 +62,12 @@ export default function QuestionCard({
         </button>
       </form>
 
-      <div className="mt-6 flex items-center justify-between">
-        <Attempts attempts={attempts} />
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+        <Attempts attempts={attempts} total={totalAttempts} />
+        <span className="text-xs text-slate-400">
+          <FaGem className="mr-1 inline text-amazigh-green" />
+          Each gem = +1 attempt
+        </span>
       </div>
     </div>
   );

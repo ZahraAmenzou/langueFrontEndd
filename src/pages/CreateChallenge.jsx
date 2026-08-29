@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FaPlusCircle, FaCheckCircle, FaLink, FaSave, FaArrowLeft, FaTrash, FaSpinner } from 'react-icons/fa';
 import { challengeApi, getErrorMessage } from '../services/api';
 import Loading from '../components/Loading';
+import { LANGUAGES, LANGUAGE_CODES, DEFAULT_LANGUAGE, getLanguage } from '../config/languages';
 
 const EMPTY_WORDS = () => Array.from({ length: 10 }, () => ({ word: '', correctAnswer: '' }));
 
@@ -12,6 +13,7 @@ export default function CreateChallenge() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
+  const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
   const [words, setWords] = useState(EMPTY_WORDS);
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
@@ -24,6 +26,7 @@ export default function CreateChallenge() {
       .get(id)
       .then((res) => {
         setTitle(res.data.challenge.title);
+        setLanguage(res.data.challenge.language || DEFAULT_LANGUAGE);
         setWords(
           Array.from({ length: 10 }, (_, i) => ({
             word: res.data.challenge.words[i]?.word || '',
@@ -50,17 +53,22 @@ export default function CreateChallenge() {
 
     const empty = words.find((w) => !w.word.trim() || !w.correctAnswer.trim());
     if (empty) {
-      setError('All 10 words must have both a Tachelhit word and a correct answer.');
+      setError('All 10 words must have both a word and a correct answer.');
       return;
     }
 
     setSaving(true);
     try {
-      const payload = { title, words: words.map((w) => ({ word: w.word.trim(), correctAnswer: w.correctAnswer.trim() })) };
+      const payload = {
+        title: title.trim(),
+        language,
+        words: words.map((w) => ({ word: w.word.trim(), correctAnswer: w.correctAnswer.trim() })),
+      };
       const res = isEdit ? await challengeApi.update(id, payload) : await challengeApi.create(payload);
       setCreated(res.data.link);
       if (!isEdit) {
         setTitle('');
+        setLanguage(DEFAULT_LANGUAGE);
         setWords(EMPTY_WORDS());
       }
     } catch (err) {
@@ -132,8 +140,37 @@ export default function CreateChallenge() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="input"
-            placeholder="e.g. Tachelhit Basics for Beginners"
+            placeholder="e.g. Basics for Beginners"
           />
+        </div>
+
+        <div className="card p-6">
+          <label className="label">Target language</label>
+          <p className="mb-3 text-sm text-slate-400">
+            Choose the language this challenge teaches. Players will translate words of this language.
+          </p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {LANGUAGE_CODES.map((code) => {
+              const lang = LANGUAGES[code];
+              const selected = language === code;
+              return (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => setLanguage(code)}
+                  className={`flex flex-col items-center gap-1 rounded-xl border p-4 transition ${
+                    selected
+                      ? 'border-amazigh-blue bg-amazigh-blue/10 text-white'
+                      : 'border-line bg-panelLight/40 text-slate-300 hover:bg-white/5'
+                  }`}
+                >
+                  <span className="text-2xl">{lang.flag}</span>
+                  <span className="text-sm font-semibold">{lang.label}</span>
+                  <span className="text-xs text-slate-400">{lang.nativeName}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="card p-6">
@@ -144,14 +181,14 @@ export default function CreateChallenge() {
             </span>
           </div>
           <p className="mb-6 text-sm text-slate-400">
-            Exactly 10 Tachelhit words are required. Answers are stored securely on the server and never shown to players.
+            Exactly 10 {getLanguage(language).label} words are required. Answers are stored securely on the server and never shown to players.
           </p>
 
           <div className="space-y-4">
             {words.map((word, index) => (
               <div key={index} className="grid grid-cols-1 gap-3 rounded-xl border border-line bg-panelLight/40 p-4 sm:grid-cols-2">
                 <div>
-                  <label className="label">Word {index + 1} — Tachelhit</label>
+                  <label className="label">Word {index + 1} — {getLanguage(language).label}</label>
                   <input
                     type="text"
                     value={word.word}
@@ -161,7 +198,7 @@ export default function CreateChallenge() {
                   />
                 </div>
                 <div>
-                  <label className="label">Word {index + 1} — Correct answer</label>
+                  <label className="label">Word {index + 1} — Correct answer (translation)</label>
                   <input
                     type="text"
                     value={word.correctAnswer}

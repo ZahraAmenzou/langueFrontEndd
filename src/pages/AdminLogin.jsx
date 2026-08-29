@@ -39,7 +39,7 @@ export default function AdminLogin() {
             <FaUserShield className="text-amazigh-yellow" />
           </span>
           <h1 className="text-2xl font-extrabold text-white">Admin Login</h1>
-          <p className="mt-1 text-sm text-slate-400">Sign in to manage Tachelhit challenges</p>
+          <p className="mt-1 text-sm text-slate-400">Sign in to manage language challenges</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -52,7 +52,7 @@ export default function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input pl-11"
-                placeholder="admin@tachelhit.com"
+                placeholder="admin@example.com"
                 required
               />
             </div>

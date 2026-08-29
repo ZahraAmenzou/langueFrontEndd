@@ -12,13 +12,13 @@ const extractCode = (input) => {
 const features = [
   {
     icon: <FaBrain className="text-2xl text-amazigh-blue" />,
-    title: '10 Tachelhit Words',
-    text: 'Each challenge contains exactly 10 Amazigh words created by the challenge maker.',
+    title: '10 Words',
+    text: 'Each challenge contains exactly 10 words created by the challenge maker.',
   },
   {
     icon: <FaHeartBroken className="text-2xl text-amazigh-red" />,
-    title: '3 Attempts',
-    text: 'You may miss up to 3 answers. A fourth mistake means game over.',
+    title: '10 Attempts',
+    text: 'Start with 10 attempts. Answer correctly to earn gems (💎) that add extra attempts.',
   },
   {
     icon: <FaLock className="text-2xl text-amazigh-yellow" />,
@@ -28,7 +28,7 @@ const features = [
   {
     icon: <FaServer className="text-2xl text-amazigh-green" />,
     title: '100% Server-Side',
-    text: 'Answers and game state live on the server. Refresh or inspect code all you want.',
+    text: 'Answers, gems and game state live on the server. Refresh or inspect code all you want.',
   },
 ];
 
@@ -45,31 +45,31 @@ export default function Home() {
   return (
     <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 select-none">
-        <span className="absolute left-[8%] top-16 animate-float text-7xl text-amazigh-blue/10">ⵣ</span>
-        <span className="absolute right-[10%] top-32 animate-float-slow text-8xl text-amazigh-green/10">ⵣ</span>
-        <span className="absolute bottom-24 left-[15%] animate-float-slow text-6xl text-amazigh-red/10">ⵣ</span>
-        <span className="absolute bottom-40 right-[18%] animate-float text-6xl text-amazigh-yellow/10">ⵣ</span>
-        <span className="absolute left-1/2 top-1/4 animate-float text-5xl text-white/5">ⵣ</span>
+        <span className="absolute left-[8%] top-16 animate-float text-7xl text-amazigh-blue/10">🌍</span>
+        <span className="absolute right-[10%] top-32 animate-float-slow text-8xl text-amazigh-green/10">🌍</span>
+        <span className="absolute bottom-24 left-[15%] animate-float-slow text-6xl text-amazigh-red/10">🌍</span>
+        <span className="absolute bottom-40 right-[18%] animate-float text-6xl text-amazigh-yellow/10">🌍</span>
+        <span className="absolute left-1/2 top-1/4 animate-float text-5xl text-white/5">🌍</span>
       </div>
 
       <section className="mx-auto flex max-w-3xl flex-col items-center px-4 pb-16 pt-20 text-center">
         <span className="animate-fade-in mb-6 rounded-full border border-line bg-white/5 px-4 py-1.5 text-sm font-medium text-slate-300">
-          ⵣ An Amazigh language challenge
+          🌍 A multi-language learning challenge
         </span>
 
         <h1 className="animate-slide-up text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">
-          <span className="text-amazigh-yellow">ⵣ</span>{' '}
+          <span className="text-amazigh-yellow">🌍</span>{' '}
           <span className="bg-gradient-to-r from-amazigh-yellow via-amazigh-blue to-amazigh-green bg-clip-text text-transparent">
-            TACHELHIT
+            LANGUAGE
           </span>{' '}
-          AMAZIGH <span className="bg-gradient-to-r from-amazigh-red to-amazigh-yellow bg-clip-text text-transparent">CHALLENGE</span>
+          <span className="bg-gradient-to-r from-amazigh-red to-amazigh-yellow bg-clip-text text-transparent">CHALLENGE</span>
         </h1>
 
         <p className="mt-4 max-w-xl text-lg text-slate-300">
-          Are you ready to test your <span className="font-semibold text-white">Tachelhit</span>?
+          Test your vocabulary in <span className="font-semibold text-white">Tachelhit, French, English or German</span>!
         </p>
         <p className="mt-2 max-w-xl text-sm text-slate-400">
-          Someone shared a challenge with you. Enter their link or code below and prove your Amazigh vocabulary.
+          Someone shared a challenge with you. Enter their link or code below and prove your vocabulary.
         </p>
 
         <form onSubmit={handleStart} className="mt-8 w-full max-w-lg">

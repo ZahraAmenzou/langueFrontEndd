@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { FaTrophy, FaCheckCircle, FaTimesCircle, FaBullseye, FaClock } from 'react-icons/fa';
+import { FaTrophy, FaCheckCircle, FaTimesCircle, FaBullseye, FaClock, FaGem } from 'react-icons/fa';
 import { playerApi, getPlayerToken } from '../services/api';
 import Loading from '../components/Loading';
+import { getLanguage } from '../config/languages';
 
 const COLORS = ['#FACC15', '#38BDF8', '#4ADE80', '#F87171', '#A78BFA', '#FB923C'];
 
@@ -81,6 +82,7 @@ export default function Success() {
     state.startedAt && state.completedAt ? new Date(state.completedAt) - new Date(state.startedAt) : null;
 
   const stats = [
+    { icon: <FaGem className="text-amazigh-green" />, label: 'Gems Earned', value: state.gems ?? 0 },
     { icon: <FaBullseye className="text-amazigh-yellow" />, label: 'Score', value: `${state.score} / 100` },
     { icon: <FaCheckCircle className="text-amazigh-green" />, label: 'Correct', value: state.correctAnswers },
     { icon: <FaTimesCircle className="text-amazigh-red" />, label: 'Wrong', value: state.wrongAnswers },
@@ -103,7 +105,7 @@ export default function Success() {
         <p className="mt-1 text-2xl font-bold text-amazigh-yellow">
           {state.correctAnswers} / {state.totalWords}
         </p>
-        <p className="mb-10 text-slate-400">You completed the Tachelhit Challenge.</p>
+        <p className="mb-10 text-slate-400">You completed the {getLanguage(state.language).label} Challenge.</p>
 
         <div className="card w-full p-6">
           <div className="mb-6">
@@ -111,7 +113,7 @@ export default function Success() {
             <p className="text-xl font-bold text-white">{state.title}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-6">
             {stats.map((stat) => (
               <div key={stat.label} className="rounded-xl border border-line bg-panelLight/60 p-4">
                 <div className="mb-2 flex justify-center text-2xl">{stat.icon}</div>
@@ -120,6 +122,13 @@ export default function Success() {
               </div>
             ))}
           </div>
+
+          {state.totalAttempts != null && state.totalAttempts > 10 && (
+            <div className="mt-6 rounded-xl border border-amazigh-green/30 bg-amazigh-green/10 p-4 text-sm text-amazigh-green">
+              💎 You earned {state.gems} gem(s) plus a 🎁 completion bonus — your total attempts reached{' '}
+              <span className="font-bold">{state.totalAttempts}</span>!
+            </div>
+          )}
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link to="/" className="btn-primary">

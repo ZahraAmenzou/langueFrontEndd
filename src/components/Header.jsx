@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserShield, FaSignOutAlt, FaHome } from 'react-icons/fa';
+import { FaUserShield, FaSignOutAlt, FaHome, FaGlobeAfrica } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
@@ -15,9 +15,9 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-line bg-base/70 backdrop-blur-lg">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight">
-          <span className="text-amazigh-yellow text-2xl">ⵣ</span>
+          <FaGlobeAfrica className="text-2xl text-amazigh-yellow" />
           <span>
-            TACHELHIT{' '}
+            LANGUAGE{' '}
             <span className="bg-gradient-to-r from-amazigh-yellow via-amazigh-blue to-amazigh-green bg-clip-text text-transparent">
               CHALLENGE
             </span>
