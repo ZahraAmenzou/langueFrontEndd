@@ -80,6 +80,8 @@ export default function Success() {
   const accuracy = answered > 0 ? Math.round((state.correctAnswers / answered) * 100) : 100;
   const durationMs =
     state.startedAt && state.completedAt ? new Date(state.completedAt) - new Date(state.startedAt) : null;
+  const langLabel = getLanguage(state.language).label;
+  const translationLabel = getLanguage(state.translationLanguage).label;
 
   const stats = [
     { icon: <FaGem className="text-amazigh-green" />, label: 'Gems Earned', value: state.gems ?? 0 },
@@ -105,7 +107,9 @@ export default function Success() {
         <p className="mt-1 text-2xl font-bold text-amazigh-yellow">
           {state.correctAnswers} / {state.totalWords}
         </p>
-        <p className="mb-10 text-slate-400">You completed the {getLanguage(state.language).label} Challenge.</p>
+        <p className="mb-10 text-slate-400">
+          You completed the {langLabel} Challenge — {langLabel} to {translationLabel}.
+        </p>
 
         <div className="card w-full p-6">
           <div className="mb-6">

@@ -99,6 +99,7 @@ export default function ManageChallenges() {
               <tr className="border-b border-line text-xs uppercase tracking-wider text-slate-400">
                 <th className="px-4 py-4">Challenge</th>
                 <th className="px-4 py-4 text-center">Language</th>
+                <th className="px-4 py-4 text-center">Translation</th>
                 <th className="px-4 py-4 text-center">Words</th>
                 <th className="px-4 py-4">Status</th>
                 <th className="px-4 py-4">Players</th>
@@ -109,6 +110,7 @@ export default function ManageChallenges() {
             <tbody>
               {challenges.map((challenge) => {
                 const lang = getLanguage(challenge.language);
+                const translationLang = getLanguage(challenge.translationLanguage);
                 return (
                 <tr key={challenge.id} className="border-b border-line/60 last:border-0 hover:bg-white/5">
                   <td className="px-4 py-4">
@@ -119,6 +121,12 @@ export default function ManageChallenges() {
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200">
                       <span>{lang.flag}</span>
                       {lang.label}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 text-center">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200">
+                      <span>{translationLang.flag}</span>
+                      {translationLang.label}
                     </span>
                   </td>
                   <td className="px-4 py-4 text-center font-semibold text-slate-300">{challenge.words}</td>

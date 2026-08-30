@@ -137,16 +137,29 @@ export default function Challenge() {
 
   if (view === 'intro') {
     const lang = getLanguage(meta?.language);
+    const translationLang = getLanguage(meta?.translationLanguage);
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-xl flex-col items-center justify-center px-4 text-center">
         <span className="mb-4 inline-block animate-float text-6xl text-amazigh-yellow">{lang.flag}</span>
         <h1 className="mb-2 text-3xl font-extrabold text-white sm:text-4xl">{lang.label.toUpperCase()} CHALLENGE</h1>
         <p className="mb-8 text-slate-400">{meta?.title}</p>
 
+        <div className="mb-8 flex w-full flex-wrap items-center justify-center gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full border border-amazigh-blue/40 bg-amazigh-blue/10 px-4 py-2 text-sm font-semibold text-amazigh-blue">
+            <span>{lang.flag}</span> Challenge: {lang.label}
+          </span>
+          <span className="text-xs font-bold text-slate-500">→</span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-amazigh-green/40 bg-amazigh-green/10 px-4 py-2 text-sm font-semibold text-amazigh-green">
+            <span>{translationLang.flag}</span> Translation: {translationLang.label}
+          </span>
+        </div>
+
         <div className="card mb-8 w-full space-y-3 p-6 text-left">
           <div className="flex items-center gap-3">
             <FaFlag className="text-amazigh-blue" />
-            <span className="text-slate-300">{meta?.totalWords || 10} words to translate</span>
+            <span className="text-slate-300">
+              Translate {meta?.totalWords || 10} {lang.label} words into {translationLang.label}
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <FaHeart className="text-amazigh-red" />
@@ -189,12 +202,13 @@ export default function Challenge() {
   const total = state.totalWords;
   const current = Math.min(state.currentQuestion, total);
   const lang = getLanguage(state.language);
+  const translationLang = getLanguage(state.translationLanguage || meta?.translationLanguage);
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-10">
       <div className="mb-6 w-full max-w-xl">
         <p className="mb-3 text-center text-xs font-bold uppercase tracking-[0.35em] text-amazigh-blue">
-          {lang.flag} {lang.label} Challenge
+          {lang.flag} {lang.label} → {translationLang.flag} {translationLang.label}
         </p>
         <div className="mb-2 flex items-center justify-between gap-3">
           <h1 className="truncate text-lg font-bold text-white">{state.title}</h1>
@@ -209,6 +223,7 @@ export default function Challenge() {
         questionNumber={current + 1}
         total={total}
         word={state.currentWord}
+        translationLanguage={translationLang.label}
         attempts={state.attemptsRemaining}
         totalAttempts={state.totalAttempts}
         gems={state.gems}

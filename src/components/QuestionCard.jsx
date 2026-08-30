@@ -6,6 +6,7 @@ export default function QuestionCard({
   questionNumber,
   total,
   word,
+  translationLanguage,
   attempts,
   totalAttempts = 10,
   gems = 0,
@@ -40,7 +41,7 @@ export default function QuestionCard({
       </div>
 
       <p className="mb-2 text-sm font-medium uppercase tracking-widest text-slate-400">
-        What does this word mean?
+        {translationLanguage ? `Translate into ${translationLanguage}` : 'What does this word mean?'}
       </p>
 
       <div className="mb-6 rounded-2xl border border-line bg-gradient-to-br from-panelLight to-panel py-8 text-center">
@@ -52,7 +53,7 @@ export default function QuestionCard({
           type="text"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          placeholder="Type your answer..."
+          placeholder={translationLanguage ? `Type your answer in ${translationLanguage}...` : 'Type your answer...'}
           className="input py-4 text-lg"
           autoFocus
           disabled={disabled}
